@@ -1,8 +1,9 @@
 interface QuizProps {
-  quiz: { question: string; options: string[]; correctOption?: number };
+  quiz: { question: string; options: string[]; correctOption: number };
+  onOptoinClick: (selectedOption: number) => void;
 }
 
-const Quiz: React.FC<QuizProps> = ({ quiz }) => {
+const Quiz: React.FC<QuizProps> = ({ quiz, onOptoinClick }) => {
   const { question, options } = quiz;
 
   return (
@@ -10,7 +11,9 @@ const Quiz: React.FC<QuizProps> = ({ quiz }) => {
       <p>{question}</p>
       <ol>
         {options.map((option, index) => (
-          <li key={index} onClick={}>{option}</li>
+          <li key={index} onClick={() => onOptoinClick(index)}>
+            {option}
+          </li>
         ))}
       </ol>
     </div>
