@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import Quiz from "./components/Quiz";
 import Score from "./components/Score";
 import { quizData } from "./utils/quizData";
+import { initialState, quizReducer } from "./components/reducer";
 
 function App() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
+  const [state, dispatch] = useReducer(quizReducer, initialState);
 
   function checkAnswer(selectedOption: number, correctOption: number): boolean {
     return selectedOption === correctOption;
@@ -30,7 +32,11 @@ function App() {
           onOptoinClick={handleOptionClick}
         />
       ) : (
-        <Score currentScore={score} totalScore={quizData.length} />
+        <Score
+          currentScore={state.score}
+          totalScore={state.quizData.length}
+          onReset={() => dispatch({ type: "RESET" })}
+        />
       )}
     </>
   );
